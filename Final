@@ -1,0 +1,292 @@
+1. A Dice class with
+   A constructor to initialize the number of dices to throw
+   A Throw method that will throw those dices
+          If the number of dices is 1, Throw will return a random number between 1-6
+          If the number of dices is 2, Throw will return a random number between 1-12
+          If the number of dices is 3, Throw will return a random number between 1-18
+   The ToString method that returns the number of dices and last value thrown
+   Write a test program to test Dice
+------------------------------------------------------------------------------------------------------------------------
+import java.util.Random;
+
+public class RandomNumber 
+{
+	Random random = new Random();
+	
+	public int RNG(int Max)
+	{
+		return random.nextInt(Max)+1;
+	}
+}
+--------------------------------------------------------------------------
+public class Dice extends RandomNumber
+{
+	protected static int Max=6;
+	private int Value;
+	
+	RandomNumber random = new RandomNumber();
+	
+	public Dice()
+	{
+		Value = Throw();
+	}
+	
+	public int GetValue()
+	{
+		return this.Value;
+	}
+	
+	public int Throw()
+	{
+		return RNG(Dice.Max);
+	}
+---------------------------------------------------------------------------
+import java.util.Scanner;
+
+public class Main 
+{
+	public static void main(String[] args)
+	{
+		
+		Scanner inp = new Scanner( System.in );
+		int n_throw = 0;
+		int sum = 0;
+		
+		System.out.print("How many dices you want to play:");
+		n_throw = inp.nextInt();
+		
+		if (n_throw == 1)
+		{
+			Dice d= new Dice();
+			sum = d.Throw();
+			System.out.print("Value:"+ sum);
+			
+		}
+		else{
+			if(n_throw == 2){
+				Dice d1=new Dice();
+				Dice d2= new Dice();
+				sum = d1.Throw() + d2.Throw();
+				System.out.print("Value:"+ sum);
+				
+			}
+			else {
+				if(n_throw == 3){
+					Dice d1=new Dice();
+					Dice d2= new Dice();
+					Dice d3= new Dice();
+					sum = d1.Throw() + d2.Throw() + d3.Throw();
+					System.out.print("Value:"+ sum);
+					
+				}
+				
+			}
+		}
+		
+	}
+	
+}
+
+
+------------------------------------------------------------------------------------------------------------------------
+2. Create a DoubleDice class from Dice
+   User of the DoubleDice does not need to specify the number of dices when instantiating
+   ToString method of DoubleDice should display info spefic to DoubleDice
+   Write a test program to test DoubleDice
+-------------------------------------------------------------------------------------------------------------------------
+
+public class DoubleDice extends Dice
+{
+	int x;
+
+	public DoubleDice() {
+
+	}
+	
+	public int GetValue() {
+		x = 1 + (int) (Math.random() * 12);
+		return x;
+	}
+}
+
+---------------------------------------------------------------
+
+import java.util.Scanner;
+
+
+public class DDTest {
+	public static void main(String[] args)
+	{
+	Scanner inp = new Scanner( System.in );
+	int n_throw = 0;
+	int sum = 0;
+	
+	System.out.print("How many dices you want to play:");
+	n_throw = inp.nextInt();
+	
+	if (n_throw == 1)
+	{
+		DoubleDice dd= new DoubleDice();
+		sum = dd.GetValue();
+		System.out.print("Value:"+ sum);
+	}
+	
+	else if(n_throw == 2)
+	{
+		DoubleDice dd1= new DoubleDice();
+		DoubleDice dd2= new DoubleDice();
+		sum = dd1.GetValue() + dd2.GetValue();
+		System.out.print("Value:"+ sum);
+	}
+	
+	else if(n_throw == 3)
+	{
+		DoubleDice dd1= new DoubleDice();
+		DoubleDice dd2= new DoubleDice();
+		DoubleDice dd3= new DoubleDice();
+		sum = dd1.GetValue() + dd2.GetValue() + dd3.GetValue();
+		System.out.print("Value:"+ sum);
+	}
+}
+}
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+4. Use the Runnable interface (or any means of your choice) to make DoubleDice class multi-threadable
+   Write a test program to use DoubleDice in multiple threads
+------------------------------------------------------------------------------------------------------------------------
+
+
+public interface GuessANumber 
+{
+	static Dice dice = new Dice();
+	static DoubleDice dubDice = new DoubleDice();
+}
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+5. Explain how you apply the the following OOP methodologies
+   a. Encapsulation 
+   The whole idea behind encapsulation is to hide the implementation details from users.
+   If a data member is private it means it can only be accessed within the same class. 
+   No outside class can access private data member (variable) of other class.
+   
+   public Dice()
+	{
+		Value = Throw();
+	}
+	
+	public int GetValue()
+	{
+		return this.Value;
+	}
+	
+	public int Throw()
+	{
+		return RNG(Dice.Max);
+	}
+	
+	public String toString()
+	{
+		return "Number of dices: " + n_throw + "\nLast Value Thrown: " + sum;
+	}
+}
+
+
+   b. Inheritance
+   Inheritance is the mechanism by which an object acquires the some/all properties of another object.
+    It supports the concept of hierarchical classification.
+   import java.util.Random;
+
+public class RandomNumber 
+{
+	Random random = new Random();
+	
+	public int RNG(int Max)
+	{
+		return random.nextInt(Max)+1;
+	}
+}
+
+public class Dice extends RandomNumber
+{
+	protected static int Max=6;
+	private int Value;
+	
+	int n_throw;
+	int sum;
+	
+	RandomNumber random = new RandomNumber();
+	
+	public Dice()
+	{
+		Value = Throw();
+	}
+	
+	public int GetValue()
+	{
+		return this.Value;
+	}
+	
+	public int Throw()
+	{
+		return RNG(Dice.Max);
+	}
+	
+	public String toString()
+	{
+		return "Number of dices: " + n_throw + "\nLast Value Thrown: " + sum;
+	}
+}
+
+public class DoubleDice extends Dice
+{
+	int x;
+
+	public DoubleDice() {
+
+	}
+	
+	public int GetValue() {
+		x = 1 + (int) (Math.random() * 12);
+		return x;
+	}
+}
+   
+   c. Polymorphism 
+   Polymorphism means to process objects differently based on their data type.
+    In other words it means, one method with multiple implementation, for a certain class of action.
+    And which implementation to be used is decided at runtime depending upon the situation.
+    
+   if (n_throw == 1)
+		{
+			Dice d= new Dice();
+			sum = d.Throw();
+			System.out.print("Value:"+ sum);
+			
+		}
+		else{
+			if(n_throw == 2){
+				Dice d1=new Dice();
+				Dice d2= new Dice();
+				sum = d1.Throw() + d2.Throw();
+				System.out.print("Value:"+ sum);
+				
+			}
+			else {
+				if(n_throw == 3){
+					Dice d1=new Dice();
+					Dice d2= new Dice();
+					Dice d3= new Dice();
+					sum = d1.Throw() + d2.Throw() + d3.Throw();
+					System.out.print("Value:"+ sum);
+					
+				}
+				
+			}
+		}
+------------------------------------------------------------------------------------------------------------------------
